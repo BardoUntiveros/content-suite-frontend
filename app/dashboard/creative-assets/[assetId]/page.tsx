@@ -19,7 +19,7 @@ import {
 import { getAssetJourney } from "@/lib/api";
 import { getErrorMessage } from "@/lib/error";
 import { CreativeAssetJourney, JourneyEventType } from "@/lib/types";
-import { STATUS_LABEL } from "@/lib/labels";
+import { ASSET_ICON, ASSET_LABEL, STATUS_LABEL } from "@/lib/labels";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -183,6 +183,24 @@ export default function AssetJourneyPage() {
                 </div>
               </CardHeader>
               <CardContent className="p-5 space-y-5">
+                <div>
+                  <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">
+                    Tipo de Recurso
+                  </h4>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge
+                      variant="outline"
+                      className="flex items-center gap-1.5 font-normal bg-background"
+                    >
+                      {ASSET_ICON[journey.asset.asset_type] &&
+                        (() => {
+                          const Icon = ASSET_ICON[journey.asset.asset_type];
+                          return <Icon className="size-3" />;
+                        })()}
+                      {ASSET_LABEL[journey.asset.asset_type]}
+                    </Badge>
+                  </div>
+                </div>
                 <div>
                   <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">
                     Producto Objetivo

@@ -145,7 +145,7 @@ export default function CreativeAssetAuditPage() {
 
   if (!journey || refreshing || !user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background">
+      <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3 text-center">
           <Spinner className="size-8 text-primary" />
           <p className="text-sm text-muted-foreground animate-pulse">
@@ -158,7 +158,7 @@ export default function CreativeAssetAuditPage() {
 
   return (
     <RoleGuard allowed={["approver_b"]}>
-      <main className="min-h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.5rem)] flex flex-col p-4 lg:p-6 md:overflow-hidden w-full max-w-full">
+      <main className="min-h-[calc(100vh-3.5rem)] flex flex-col p-4 lg:p-6 w-full max-w-full">
         <AuditSection
           auditAssets={mappedAssets}
           busyAction={busyAction}

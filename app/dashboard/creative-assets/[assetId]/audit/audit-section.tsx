@@ -6,14 +6,7 @@ import { CheckCircle2, ShieldCheck, XCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Spinner } from "@/components/ui/spinner";
@@ -54,7 +47,7 @@ function FilePreview({ file }: { file: File }) {
 }
 
 export type AuditSectionProps = {
-  auditAssets: CreativeAsset[];
+  auditAssets: (CreativeAsset & { manual_product_name?: string })[];
   busyAction: string | null;
   filesByAsset: Record<string, File | undefined>;
   auditResults: Record<
@@ -111,12 +104,10 @@ export function AuditSection({
   }
 
   return (
-    <div className="flex flex-col h-full space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between shrink-0">
+    <div className="flex flex-col space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold tracking-tight">
-            Auditoría multimodal
-          </h2>
+          <h2 className="text-xl font-bold">Auditoría multimodal</h2>
           <p className="text-sm text-muted-foreground mt-1">
             Sube recursos visuales para ejecutar auditorías de cumplimiento con
             IA basadas en las reglas de la marca.
@@ -124,7 +115,7 @@ export function AuditSection({
         </div>
       </div>
 
-      <div className="flex-1 min-h-0">
+      <div>
         {auditAssets.map((asset) => {
           const Icon = ASSET_ICON[asset.asset_type];
           const auditBusy = busyAction === `audit-${asset.id}`;
@@ -133,56 +124,107 @@ export function AuditSection({
           const latestAudit = auditResults[asset.id];
 
           return (
-            <Card
-              key={asset.id}
-              className="shadow-sm border-muted/60 h-full flex flex-col overflow-hidden"
-            >
-              <CardHeader className="space-y-3 pb-4 shrink-0">
-                <div className="flex items-start justify-between gap-4">
-                  <Badge
-                    variant="outline"
-                    className="flex items-center gap-1.5 font-normal bg-background"
-                  >
-                    <Icon className="size-3" />
-                    {ASSET_LABEL[asset.asset_type]}
-                  </Badge>
-                  <Badge
-                    variant={
-                      asset.workflow_status === "approved"
-                        ? "default"
-                        : asset.workflow_status === "rejected"
-                          ? "destructive"
-                          : "secondary"
-                    }
-                    className="font-medium"
-                  >
-                    {STATUS_LABEL[asset.workflow_status]}
-                  </Badge>
-                </div>
-                <div className="space-y-1">
-                  <CardTitle className="text-base" title={asset.brief}>
-                    {asset.brief || "Recurso sin título"}
-                  </CardTitle>
-                  <CardDescription className="text-xs font-mono text-muted-foreground/70">
-                    ID: {asset.id.split("-")[0]}
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent className="grid gap-6 border-t bg-muted/5 p-5 lg:grid-cols-12 flex-1 min-h-0">
-                <div className="flex flex-col space-y-2 lg:col-span-8 h-full min-h-0">
-                  <Label className="text-xs font-semibold uppercase text-muted-foreground shrink-0">
-                    Manual de marca
-                  </Label>
-                  <ScrollArea className="flex-1 rounded-md border bg-background p-4 min-h-0">
-                    <MarkdownView
-                      content={asset.manual_markdown || "Manual no disponible"}
-                      className="prose prose-sm dark:prose-invert max-w-none"
-                    />
-                  </ScrollArea>
+            <div key={asset.id} className="flex flex-col mb-6">
+              <div className="grid gap-6 lg:grid-cols-12 items-start h-full">
+                <div className="flex flex-col space-y-6 lg:col-span-7 h-full">
+                  <Card className="gap-0">
+                    <CardHeader className="border-b border-muted">
+                      <div className="flex flex-wrap items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <CardTitle className="text-base flex items-center gap-2">
+                            Metadatos del recurso
+                          </CardTitle>
+                          <span className="text-xs font-mono text-muted-foreground bg-muted/50 px-2 py-1 rounded">
+                            ID: {asset.id.split("-")[0]}
+                          </span>
+                        </div>
+                        <Badge
+                          variant={
+                            asset.workflow_status === "approved"
+                              ? "default"
+                              : asset.workflow_status === "rejected"
+                                ? "destructive"
+                                : "secondary"
+                          }
+                          className="font-medium"
+                        >
+                          {STATUS_LABEL[asset.workflow_status]}
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-5 space-y-5">
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">
+                          Tipo de Recurso
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge
+                            variant="outline"
+                            className="flex items-center gap-1.5 font-normal bg-background"
+                          >
+                            <Icon className="size-3" />
+                            {ASSET_LABEL[asset.asset_type]}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">
+                          Producto Objetivo
+                        </h4>
+                        <p className="text-sm font-semibold leading-relaxed whitespace-pre-wrap">
+                          {asset.manual_product_name || "No especificado"}
+                        </p>
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">
+                          Brief Creativo
+                        </h4>
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                          {asset.brief || "Recurso sin título"}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="flex flex-col gap-0 overflow-hidden h-fit">
+                    <CardHeader className="border-b border-muted gap-0 shrink-0">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        Contenido generado
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="p-5">
+                        <MarkdownView
+                          content={asset.generated_text || "Sin contenido"}
+                          className="prose prose-sm dark:prose-invert max-w-none"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="flex flex-col gap-0 flex-1 overflow-hidden h-[400px]">
+                    <CardHeader className="border-b border-muted gap-0 shrink-0">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        Manual de marca
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0 flex-1 overflow-hidden min-h-0">
+                      <ScrollArea className="h-full">
+                        <div className="p-5">
+                          <MarkdownView
+                            content={
+                              asset.manual_markdown || "Manual no disponible"
+                            }
+                            className="prose prose-sm dark:prose-invert max-w-none"
+                          />
+                        </div>
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
                 </div>
 
-                <div className="flex flex-col space-y-4 lg:col-span-4 h-full min-h-0">
-                  <div className="flex flex-col space-y-2 flex-1 min-h-0">
+                <div className="flex flex-col space-y-4 lg:col-span-5 lg:sticky lg:top-6">
+                  <div className="flex flex-col space-y-2">
                     <Label
                       htmlFor={`file-${asset.id}`}
                       className="text-xs font-semibold uppercase text-muted-foreground shrink-0"
@@ -220,23 +262,23 @@ export function AuditSection({
                       </span>
                     </div>
                     {filesByAsset[asset.id] && (
-                      <p className="text-[10px] text-muted-foreground/70 shrink-0">
+                      <p className="text-[10px] text-muted-foreground/70">
                         Seleccionado: {filesByAsset[asset.id]?.name}
                       </p>
                     )}
 
-                    <div className="flex-1 min-h-0 flex flex-col mt-2">
+                    <div className="flex flex-col mt-2 h-[400px]">
                       {filesByAsset[asset.id] ? (
                         <FilePreview file={filesByAsset[asset.id]!} />
                       ) : (
-                        <div className="flex-1 min-h-0 w-full flex items-center justify-center rounded-md border bg-background p-4 text-center text-sm text-muted-foreground">
+                        <div className="h-full w-full flex items-center justify-center rounded-md border bg-background p-4 text-center text-sm text-muted-foreground">
                           Sube un recurso visual para previsualizarlo aquí.
                         </div>
                       )}
                     </div>
                   </div>
 
-                  <CardFooter className="flex flex-col gap-2 border rounded-md bg-background p-3 shrink-0">
+                  <div className="flex flex-col gap-2 border rounded-md bg-background p-3 mt-4">
                     <Button
                       className="w-full"
                       disabled={auditBusy || !filesByAsset[asset.id]}
@@ -275,7 +317,9 @@ export function AuditSection({
                         </p>
                       </div>
                     )}
+                  </div>
 
+                  <div className="flex flex-col gap-2 border rounded-md bg-background p-3">
                     <Button
                       variant="secondary"
                       className="w-full"
@@ -291,10 +335,10 @@ export function AuditSection({
                     >
                       {approveBusy ? <Spinner className="size-4" /> : "Aprobar"}
                     </Button>
-                  </CardFooter>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
