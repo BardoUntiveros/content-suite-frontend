@@ -54,11 +54,11 @@ export default function CreativeAssetsPage() {
 
   return (
     <>
-      <main className="min-h-[calc(100vh-4rem)] p-4 lg:p-6">
-        <div className="grid w-full gap-6">
-          <section className="space-y-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
+      <main className="min-h-[calc(100vh-4rem)] p-4 lg:p-6 w-full overflow-hidden flex flex-col">
+        <div className="flex-1 w-full min-w-0 flex flex-col gap-6">
+          <section className="space-y-6 min-w-0 flex-1 flex flex-col">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between min-w-0">
+              <div className="min-w-0">
                 <h2 className="text-xl font-semibold">Contenido generado</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   Lista consolidada con acceso a trazabilidad de cada recurso.

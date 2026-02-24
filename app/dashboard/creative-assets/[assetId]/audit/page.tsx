@@ -158,7 +158,7 @@ export default function CreativeAssetAuditPage() {
 
   return (
     <RoleGuard allowed={["approver_b"]}>
-      <main className="h-[calc(100vh-3.5rem)] flex flex-col p-4 lg:p-6 overflow-hidden">
+      <main className="min-h-[calc(100vh-3.5rem)] md:h-[calc(100vh-3.5rem)] flex flex-col p-4 lg:p-6 md:overflow-hidden w-full max-w-full">
         <AuditSection
           auditAssets={mappedAssets}
           busyAction={busyAction}

@@ -28,7 +28,7 @@ export function CreativeAssetsTable({
   isApproverB,
 }: CreativeAssetsTableProps) {
   return (
-    <div className="rounded-lg border border-border/60 bg-background">
+    <div className="rounded-lg border border-border/60 bg-background overflow-x-auto min-w-0">
       <Table>
         <TableHeader>
           <TableRow>
@@ -62,18 +62,21 @@ export function CreativeAssetsTable({
 
             return (
               <TableRow key={asset.id}>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium whitespace-nowrap">
                   {ASSET_LABEL[asset.asset_type]}
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell
+                  className="text-muted-foreground max-w-[200px] truncate"
+                  title={asset.manual_product_name}
+                >
                   {asset.manual_product_name}
                 </TableCell>
-                <TableCell>
+                <TableCell className="whitespace-nowrap">
                   <Badge variant="secondary" className="shadow-none">
                     {STATUS_LABEL[asset.workflow_status]}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="text-muted-foreground whitespace-nowrap">
                   {formatDate(asset.updated_at)}
                 </TableCell>
                 <TableCell className="text-right">

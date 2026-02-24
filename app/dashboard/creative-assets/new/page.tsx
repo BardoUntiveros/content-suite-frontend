@@ -106,8 +106,8 @@ export default function CreativeAssetsNewPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] p-4 lg:p-6">
-      <div className="grid w-full gap-6">
+    <main className="min-h-[calc(100vh-4rem)] p-4 lg:p-6 w-full overflow-hidden flex flex-col">
+      <div className="flex-1 w-full min-w-0 flex flex-col gap-6">
         <GenerateSection
           manuals={manuals}
           creativeForm={creativeForm}

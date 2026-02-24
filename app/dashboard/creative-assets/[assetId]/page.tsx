@@ -13,6 +13,7 @@ import {
   XCircle,
   Zap,
   Activity,
+  ChevronLeft,
 } from "lucide-react";
 
 import { getAssetJourney } from "@/lib/api";
@@ -139,33 +140,35 @@ export default function AssetJourneyPage() {
         : "secondary";
 
   return (
-    <main className="h-[calc(100vh-4rem)] p-6 lg:p-8 overflow-hidden">
-      <div className="mx-auto grid w-full gap-8 h-full overflow-hidden">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Recorrido de trazabilidad del recurso
-          </h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <Link href="/dashboard/creative-assets">
-              <ArrowLeft className="mr-2 size-4" /> Volver
-            </Link>
-          </Button>
+    <main className="min-h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)] p-4 md:p-6 flex flex-col overflow-x-hidden md:overflow-hidden w-full max-w-full">
+      <div className="mx-auto flex flex-col w-full gap-6 flex-1 min-w-0 md:min-h-0">
+        <div>
+          <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              asChild
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <Link href="/dashboard/creative-assets">
+                <ChevronLeft className="size-5 shrink-0" />
+              </Link>
+            </Button>
+            <h2 className="text-xl font-semibold tracking-tight">
+              Recorrido de trazabilidad del recurso
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Registro de auditoría completo que muestra cada paso del ciclo de
+            vida.
+          </p>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Registro de auditoría completo que muestra cada paso del ciclo de
-          vida.
-        </p>
 
-        <div className="grid gap-8 md:grid-cols-12 h-full overflow-hidden">
-          <div className="md:col-span-5 flex flex-col gap-6 h-full overflow-hidden">
+        <div className="grid gap-6 md:grid-cols-12 flex-1 min-h-0 md:overflow-hidden">
+          <div className="md:col-span-5 flex flex-col gap-6 md:h-full min-h-0 md:overflow-hidden">
             <Card className="gap-0">
               <CardHeader className="border-b border-muted">
-                <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between">
                   <div className="flex items-center gap-3">
                     <CardTitle className="text-base flex items-center gap-2">
                       Metadatos del recurso
@@ -245,9 +248,9 @@ export default function AssetJourneyPage() {
               </CardContent>
             </Card>
           </div>
-          <div className="md:col-span-7 flex flex-col h-full min-h-0">
-            <Card className="h-full flex-1 gap-0">
-              <CardHeader className="border-b border-muted">
+          <div className="md:col-span-7 flex flex-col md:h-full min-h-[400px] md:min-h-0">
+            <Card className="h-full flex-1 gap-0 flex flex-col">
+              <CardHeader className="border-b border-muted shrink-0">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Clock3 className="size-4" />
                   Línea de tiempo
@@ -327,7 +330,7 @@ export default function AssetJourneyPage() {
                               </p>
                             )}
 
-                            <div className="flex flex-wrap items-center gap-2 text-xs mt-3 bg-background p-2 rounded-md border border-border/40">
+                            <div className="flex flex-wrap items-center gap-2 text-xs mt-3 bg-background p-2 rounded-md border border-border/40 overflow-hidden">
                               {event.from_status && (
                                 <div className="flex items-center text-muted-foreground">
                                   <span className="uppercase text-[10px] font-semibold mr-1.5 opacity-70">
@@ -377,8 +380,8 @@ export default function AssetJourneyPage() {
                                         Ver payload técnico
                                       </span>
                                     </summary>
-                                    <div className="mt-2 rounded-md bg-zinc-950 p-3 overflow-x-auto border border-zinc-800">
-                                      <pre className="text-[10px] text-zinc-300 font-mono leading-relaxed">
+                                    <div className="mt-2 rounded-md bg-zinc-950 p-3 overflow-hidden border border-zinc-800 w-full">
+                                      <pre className="text-[10px] text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap break-all">
                                         {JSON.stringify(event.payload, null, 2)}
                                       </pre>
                                     </div>

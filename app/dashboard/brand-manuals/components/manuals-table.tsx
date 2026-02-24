@@ -28,7 +28,7 @@ type ManualsTableProps = {
 
 export function ManualsTable({ manuals }: ManualsTableProps) {
   return (
-    <div className="rounded-lg border border-border/60 bg-background">
+    <div className="rounded-lg border border-border/60 bg-background overflow-x-auto min-w-0">
       <Table>
         <TableHeader>
           <TableRow>
@@ -58,16 +58,25 @@ export function ManualsTable({ manuals }: ManualsTableProps) {
 
           {manuals.map((manual) => (
             <TableRow key={manual.id}>
-              <TableCell className="font-medium">
+              <TableCell
+                className="font-medium max-w-[150px] truncate"
+                title={manual.product_name}
+              >
                 {manual.product_name}
               </TableCell>
-              <TableCell className="text-muted-foreground">
+              <TableCell
+                className="text-muted-foreground max-w-[150px] truncate"
+                title={manual.tone}
+              >
                 {manual.tone}
               </TableCell>
-              <TableCell className="text-muted-foreground">
+              <TableCell
+                className="text-muted-foreground max-w-[150px] truncate"
+                title={manual.audience}
+              >
                 {manual.audience}
               </TableCell>
-              <TableCell className="text-muted-foreground">
+              <TableCell className="text-muted-foreground whitespace-nowrap">
                 {formatDate(manual.created_at)}
               </TableCell>
               <TableCell className="text-right">

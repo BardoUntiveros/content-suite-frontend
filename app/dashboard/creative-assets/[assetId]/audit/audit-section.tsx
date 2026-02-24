@@ -245,7 +245,7 @@ export function AuditSection({
                       {auditBusy ? (
                         <>
                           <Spinner className="mr-2 size-4" />
-                          Ejecutando Auditoría...
+                          Ejecutando auditoría...
                         </>
                       ) : (
                         "Ejecutar auditoría multimodal"
