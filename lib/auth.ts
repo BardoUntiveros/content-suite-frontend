@@ -1,4 +1,4 @@
-const TOKEN_KEY = "prediqt_token";
+const TOKEN_KEY = "contentsuite_token";
 
 export function getStoredToken(): string {
   if (typeof window === "undefined") {

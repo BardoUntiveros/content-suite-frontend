@@ -48,7 +48,7 @@ export function BrandingPanel() {
       </div>
 
       <div className="relative z-10 text-sm text-zinc-500">
-        {new Date().getFullYear()} Prediqt. Todos los derechos reservados.
+        {new Date().getFullYear()} Content Suite. Todos los derechos reservados.
       </div>
     </div>
   );
